@@ -9,4 +9,4 @@ From this video: [JavaScript Game Development Course for Beginners](https://www.
 - [x] Project 3: Enemy movement patterns
 - [x] Project 4: Collision animations from a sprite sheet
 - [x] Project 5: Point & shoot game
-- [ ] Project 6: Enemy variety in JavaScript games
+- [x] Project 6: Enemy variety in JavaScript games
