@@ -10,3 +10,4 @@ From this video: [JavaScript Game Development Course for Beginners](https://www.
 - [x] Project 4: Collision animations from a sprite sheet
 - [x] Project 5: Point & shoot game
 - [x] Project 6: Enemy variety in JavaScript games
+- [x] Project 7: Side-scroller game with mobile support
