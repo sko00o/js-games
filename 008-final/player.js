@@ -6,13 +6,12 @@ export class Player {
         this.width = 100
         this.height = 91.3
         this.x = 0
-        this.y = this.game.height - this.height
+        this.y = this.game.height - this.height - this.game.groundMargin
         this.image = document.getElementById("player")
         this.frameX = 0
         this.frameY = 0
-        // this.maxFrame = 5
         this.fps = 30
-        this.frameInterval = 1000/this.fps
+        this.frameInterval = 1000 / this.fps
         this.frameTimer = 0
         this.speed = 0
         this.maxSpeed = 10
@@ -48,14 +47,14 @@ export class Player {
         if (this.frameTimer > this.frameInterval) {
             this.frameTimer = 0
             if (this.frameX < this.maxFrame) {
-                this.frameX ++
+                this.frameX++
             } else {
                 this.frameX = 0
             }
         } else {
             this.frameTimer += deltaTime
         }
-        
+
     }
     draw(context) {
         context.drawImage(this.image,
@@ -63,10 +62,11 @@ export class Player {
             this.x, this.y, this.width, this.height)
     }
     isOnGround() {
-        return this.y >= this.game.height - this.height
+        return this.y >= this.game.height - this.height - this.game.groundMargin
     }
-    setState(stateIdx) {
+    setState(stateIdx, gameSpeed) {
         this.currentState = this.states[stateIdx]
         this.currentState.enter()
+        this.game.speed = this.game.maxSpeed * gameSpeed
     }
 }
