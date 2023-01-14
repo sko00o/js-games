@@ -3,6 +3,7 @@ const states = {
     RUNNING: 1,
     JUMPING: 2,
     FALLING: 3,
+    ROLLING: 4,
 }
 
 export class PlayerStates {
@@ -15,6 +16,7 @@ export class PlayerStates {
             new Running(this.player),
             new Jumping(this.player),
             new Falling(this.player),
+            new Rolling(this.player),
         ]
     }
 }
@@ -38,6 +40,8 @@ export class Sitting extends State {
     handlerInput(inputKeys) {
         if (inputKeys.includes("ArrowLeft") || inputKeys.includes("ArrowRight")) {
             this.player.setState(states.RUNNING, 1)
+        } else if (inputKeys.includes("Enter")) {
+            this.player.setState(states.ROLLING, 2)
         }
     }
 }
@@ -57,6 +61,8 @@ export class Running extends State {
             this.player.setState(states.SITTING, 0)
         } else if (inputKeys.includes("ArrowUp")) {
             this.player.setState(states.JUMPING, 1)
+        } else if (inputKeys.includes("Enter")) {
+            this.player.setState(states.ROLLING, 2)
         }
     }
 }
@@ -78,6 +84,8 @@ export class Jumping extends State {
         }
         if (this.player.vy > this.player.weight) {
             this.player.setState(states.FALLING, 1)
+        } else if (inputKeys.includes("Enter")) {
+            this.player.setState(states.ROLLING, 2)
         }
     }
 }
@@ -95,6 +103,33 @@ export class Falling extends State {
     handlerInput(inputKeys) {
         if (this.player.isOnGround()) {
             this.player.setState(states.RUNNING, 1)
+        }
+    }
+}
+
+export class Rolling extends State {
+    constructor(player) {
+        super("ROLLING")
+        this.player = player
+    }
+    enter() {
+        this.player.frameX = 0
+        this.player.frameY = 6
+        this.player.maxFrame = 6
+    }
+    handlerInput(inputKeys) {
+        if (!inputKeys.includes("Enter")) {
+            if (this.player.isOnGround()) {
+                this.player.setState(states.RUNNING, 1)
+            } else {
+                this.player.setState(states.FALLING, 1)
+            }
+        } else if (
+            inputKeys.includes("Enter") &&
+            inputKeys.includes("ArrowUp") && 
+            this.player.isOnGround()
+        ) {
+            this.player.vy = -27
         }
     }
 }
