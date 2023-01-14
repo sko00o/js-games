@@ -23,6 +23,7 @@ export class Player {
         this.currentState.enter()
     }
     update(inputKeys, deltaTime) {
+        this.checkCollision()
         this.currentState.handlerInput(inputKeys)
 
         // horizontal movement
@@ -71,5 +72,18 @@ export class Player {
         this.currentState = this.states[stateIdx]
         this.currentState.enter()
         this.game.speed = this.game.maxSpeed * gameSpeed
+    }
+    checkCollision() {
+        this.game.enemies.forEach(enemy => {
+            if (
+                enemy.x < this.x + this.width &&
+                enemy.x + enemy.width > this.x &&
+                enemy.y < this.y + this.height &&
+                enemy.y + enemy.height > this.y
+            ) {
+                enemy.markedForDeletion = true
+                this.game.score++
+            }
+        })
     }
 }
