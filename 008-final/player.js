@@ -1,4 +1,4 @@
-import { PlayerStates } from "./player_states.js"
+import { PlayerStates, states} from "./player_states.js"
 
 export class Player {
     constructor(game) {
@@ -33,7 +33,7 @@ export class Player {
         else if (inputKeys.includes("ArrowLeft")) { this.speed = - this.maxSpeed }
         else { this.speed = 0 }
         this.x += this.speed
-
+        // horizontal boundaries
         if (this.x < 0) {
             this.x = 0
         }
@@ -45,6 +45,10 @@ export class Player {
         this.y += this.vy
         if (!this.isOnGround()) { this.vy += this.weight }
         else { this.vy = 0 }
+        // vertical boundaries
+        if (this.y > this.game.height - this.height - this.game.groundMargin) {
+            this.y = this.game.height - this.height - this.game.groundMargin
+        }
 
         // sprite animation
         if (this.frameTimer > this.frameInterval) {
@@ -100,7 +104,14 @@ export class Player {
                 enemy.y + enemy.height > this.y
             ) {
                 enemy.markedForDeletion = true
-                this.game.score++
+                if (
+                    this.currentState === this.states[states.ROLLING] ||
+                    this.currentState === this.states[states.DIVING]
+                ) {
+                    this.game.score++
+                } else {
+                    this.setState(states.HIT, 0)
+                }
             }
         })
     }
