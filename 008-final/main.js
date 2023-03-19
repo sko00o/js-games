@@ -46,7 +46,6 @@ window.addEventListener("load", function () {
                     this.enemies.splice(this.enemies.indexOf(enemy), 1)
                 }
             })
-
         }
         draw(context) {
             this.background.draw(context)
@@ -63,7 +62,6 @@ window.addEventListener("load", function () {
                 this.enemies.push(new ClimbingEnemy(this))
             }
             this.enemies.push(new FlyingEnemy(this))
-            console.log(this.enemies)
         }
     }
 

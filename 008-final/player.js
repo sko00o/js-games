@@ -21,6 +21,8 @@ export class Player {
         this.states = ps.states()
         this.currentState = this.states[0]
         this.currentState.enter()
+        this.particles = []
+        this.maxParticles = 200
     }
     update(inputKeys, deltaTime) {
         this.checkCollision()
@@ -56,6 +58,18 @@ export class Player {
             this.frameTimer += deltaTime
         }
 
+        // handle particles
+        this.particles.forEach((particle, index) => {
+            particle.update()
+            if (particle.markedForDeletion) {
+                this.particles.splice(index, 1)
+            }
+        })
+
+        // limit length to this.maxParticles
+        if (this.particles.length > this.maxParticles) {
+            this.particles = this.particles.slice(0, this.maxParticles)
+        }
     }
     draw(context) {
         if (this.game.debug) {
@@ -64,6 +78,10 @@ export class Player {
         context.drawImage(this.image,
             this.frameX * this.width, this.frameY * this.height, this.width, this.height,
             this.x, this.y, this.width, this.height)
+
+        this.particles.forEach(particle => {
+            particle.draw(context)
+        })
     }
     isOnGround() {
         return this.y >= this.game.height - this.height - this.game.groundMargin
