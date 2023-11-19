@@ -2,7 +2,7 @@ import { Player } from "./player.js"
 import { InputHandler } from "./input.js"
 import { Background } from "./background.js"
 import { FlyingEnemy, GroundEnemy, ClimbingEnemy } from "./enemy.js"
-import { UI } from "./UI.js"
+import { UI } from "./ui.js"
 
 window.addEventListener("load", function () {
     /** @type {HTMLCanvasElement} */
@@ -23,6 +23,7 @@ window.addEventListener("load", function () {
             this.input = new InputHandler(this)
             this.UI = new UI(this)
             this.enemies = []
+            this.collisions = []
             this.enemyTimer = 0
             this.enemyInterval = 1000
             this.debug = false
@@ -40,10 +41,18 @@ window.addEventListener("load", function () {
             } {
                 this.enemyTimer += deltaTime
             }
-            this.enemies.forEach(enemy => {
+            this.enemies.forEach((enemy, index) => {
                 enemy.update(deltaTime)
                 if (enemy.markedForDeletion) {
-                    this.enemies.splice(this.enemies.indexOf(enemy), 1)
+                    this.enemies.splice(index, 1)
+                }
+            })
+
+            // handle collisions
+            this.collisions.forEach((collision, index) => {
+                collision.update(deltaTime)
+                if (collision.markedForDeletion) {
+                    this.collisions.splice(index, 1)
                 }
             })
         }
@@ -52,6 +61,9 @@ window.addEventListener("load", function () {
             this.player.draw(context)
             this.enemies.forEach(enemy => {
                 enemy.draw(context)
+            })
+            this.collisions.forEach(collision => {
+                collision.draw(context)
             })
             this.UI.draw(context)
         }

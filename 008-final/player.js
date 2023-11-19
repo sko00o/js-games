@@ -1,4 +1,5 @@
-import { PlayerStates, states} from "./player_states.js"
+import { PlayerStates, states } from "./player_states.js"
+import { CollisionAnimation } from "./collision_animation.js"
 
 export class Player {
     constructor(game) {
@@ -104,6 +105,13 @@ export class Player {
                 enemy.y + enemy.height > this.y
             ) {
                 enemy.markedForDeletion = true
+                this.game.collisions.push(
+                    new CollisionAnimation(
+                        this.game,
+                        enemy.x + enemy.width * 0.5,
+                        enemy.y + enemy.height * 0.5,
+                    )
+                )
                 if (
                     this.currentState === this.states[states.ROLLING] ||
                     this.currentState === this.states[states.DIVING]
