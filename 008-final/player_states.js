@@ -60,7 +60,7 @@ export class Running extends State {
     enter() {
         this.player.frameX = 0
         this.player.frameY = 3
-        this.player.maxFrame = 6
+        this.player.maxFrame = 8
     }
     handlerInput(inputKeys) {
         // add new Dust to the beginning of particles array
@@ -157,7 +157,7 @@ export class Rolling extends State {
             this.player.isOnGround()
         ) {
             this.player.vy = -27
-        } else if (inputKeys.includes("ArrowDown")) {
+        } else if (inputKeys.includes("ArrowDown") && !this.player.isOnGround()) {
             this.player.setState(states.DIVING, 0)
         }
     }

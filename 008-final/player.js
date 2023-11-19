@@ -20,7 +20,7 @@ export class Player {
         this.weight = 1
         const ps = new PlayerStates(this)
         this.states = ps.states()
-        this.currentState = this.states[0]
+        this.currentState = this.states[states.SITTING]
         this.currentState.enter()
         this.particles = []
         this.maxParticles = 200
@@ -30,8 +30,8 @@ export class Player {
         this.currentState.handlerInput(inputKeys)
 
         // horizontal movement
-        if (inputKeys.includes("ArrowRight")) { this.speed = this.maxSpeed }
-        else if (inputKeys.includes("ArrowLeft")) { this.speed = - this.maxSpeed }
+        if (inputKeys.includes("ArrowRight") && this.currentState !== this.states[states.HIT]) { this.speed = this.maxSpeed }
+        else if (inputKeys.includes("ArrowLeft") && this.currentState !== this.states[states.HIT]) { this.speed = - this.maxSpeed }
         else { this.speed = 0 }
         this.x += this.speed
         // horizontal boundaries
@@ -73,7 +73,7 @@ export class Player {
 
         // limit length to this.maxParticles
         if (this.particles.length > this.maxParticles) {
-            this.particles = this.particles.slice(0, this.maxParticles)
+            this.particles.length = this.maxParticles
         }
     }
     draw(context) {
