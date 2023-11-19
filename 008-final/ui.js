@@ -3,6 +3,7 @@ export class UI {
         this.game = game
         this.fontSize = 30
         this.fontFamily = "Creepster"
+        this.livesImage = document.getElementById("lives")
     }
     draw(context) {
         context.save()
@@ -19,6 +20,10 @@ export class UI {
         // timer
         context.font = this.fontSize * 0.8 + 'px ' + this.fontFamily
         context.fillText('Time: ' + (this.game.time * 0.001).toFixed(), 20, 80)
+        // lives
+        for (let i = 0; i < this.game.lives; i ++) {
+            context.drawImage(this.livesImage, 20 + 25 * i , 95, 20, 20)
+        }
         // game over message
         if (this.game.gameOver) {
             context.textAlign = 'center'
