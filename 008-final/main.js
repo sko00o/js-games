@@ -29,8 +29,16 @@ window.addEventListener("load", function () {
             this.debug = false
             this.score = 0
             this.fontColor = "black"
+            this.time = 0
+            this.maxTime = 10000
+            this.gameOver = false
         }
         update(deltaTime) {
+            this.time += deltaTime
+            if (this.time > this.maxTime) {
+                this.gameOver = true
+            }
+
             this.background.update()
             this.player.update(this.input.keys, deltaTime)
 
@@ -83,9 +91,11 @@ window.addEventListener("load", function () {
         const deltaTime = timestamp - lastTime
         lastTime = timestamp
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        game.draw(ctx)
         game.update(deltaTime)
-        requestAnimationFrame(animate)
+        game.draw(ctx)
+        if (!game.gameOver) {
+            requestAnimationFrame(animate)
+        }
     }
     animate(0)
 })
