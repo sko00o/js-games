@@ -1,5 +1,6 @@
 import { PlayerStates, states } from "./player_states.js"
 import { CollisionAnimation } from "./collision_animation.js"
+import { FloatingMessage } from "./floating_messages.js"
 
 export class Player {
     constructor(game) {
@@ -66,15 +67,14 @@ export class Player {
         // handle particles
         this.particles.forEach((particle, index) => {
             particle.update()
-            if (particle.markedForDeletion) {
-                this.particles.splice(index, 1)
-            }
         })
 
         // limit length to this.maxParticles
         if (this.particles.length > this.maxParticles) {
             this.particles.length = this.maxParticles
         }
+
+        this.particles = this.particles.filter(p => !p.markedForDeletion)
     }
     draw(context) {
         if (this.game.debug) {
@@ -117,9 +117,13 @@ export class Player {
                     this.currentState === this.states[states.DIVING]
                 ) {
                     this.game.score++
+                    this.game.floatingMessages.push(
+                        new FloatingMessage('+1', enemy.x, enemy.y, 130, 50)
+                    )
                 } else {
                     this.setState(states.HIT, 0)
-                    this.game.lives --
+                    this.game.score-=5
+                    this.game.lives--
                     if (this.game.lives <= 0) {
                         this.game.gameOver = true
                     }

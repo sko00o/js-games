@@ -9,7 +9,7 @@ window.addEventListener("load", function () {
     const canvas = document.getElementById("canvas1")
     const ctx = canvas.getContext("2d")
     canvas.height = 500
-    canvas.width = 500
+    canvas.width = 900
 
     class Game {
         constructor(width, height) {
@@ -24,15 +24,17 @@ window.addEventListener("load", function () {
             this.UI = new UI(this)
             this.enemies = []
             this.collisions = []
+            this.floatingMessages = []
             this.enemyTimer = 0
             this.enemyInterval = 1000
             this.debug = false
             this.score = 0
             this.fontColor = "black"
             this.time = 0
-            this.maxTime = 10000
+            this.maxTime = 30000
             this.gameOver = false
             this.lives = 5
+            this.winningScore = 40
         }
         update(deltaTime) {
             this.time += deltaTime
@@ -52,24 +54,30 @@ window.addEventListener("load", function () {
             }
             this.enemies.forEach((enemy, index) => {
                 enemy.update(deltaTime)
-                if (enemy.markedForDeletion) {
-                    this.enemies.splice(index, 1)
-                }
+            })
+
+            // handle messages
+            this.floatingMessages.forEach((message, index) => {
+                message.update()
             })
 
             // handle collisions
             this.collisions.forEach((collision, index) => {
                 collision.update(deltaTime)
-                if (collision.markedForDeletion) {
-                    this.collisions.splice(index, 1)
-                }
             })
+            
+            this.enemies = this.enemies.filter(e => !e.markedForDeletion)
+            this.collisions = this.collisions.filter(c => !c.markedForDeletion)
+            this.floatingMessages = this.floatingMessages.filter(m => !m.markedForDeletion)
         }
         draw(context) {
             this.background.draw(context)
             this.player.draw(context)
             this.enemies.forEach(enemy => {
                 enemy.draw(context)
+            })
+            this.floatingMessages.forEach((message, index) => {
+                message.draw(context)
             })
             this.collisions.forEach(collision => {
                 collision.draw(context)
