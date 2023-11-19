@@ -12,4 +12,4 @@ From this video: [JavaScript Game Development Course for Beginners](https://www.
 - [x] Project 6: Enemy variety in JavaScript games
 - [x] Project 7: Side-scroller game with mobile support
 - [x] Project 8: State management in JavaScript games
-- [ ] Project 9: Final endless runner game with all the features
+- [x] Project 9: Final endless runner game with all the features
