@@ -1,0 +1,13 @@
+# 0x00
+
+Learn from this video: [JavaScript Game Development Course for Beginners](https://www.youtube.com/watch?v=GFO_txvwK_c)
+
+- [x] Project 1: Vanilla JavaScript sprite animation techniques
+- [x] Project 2: Parallax backgrounds with JavaScript
+- [x] Project 3: Enemy movement patterns
+- [x] Project 4: Collision animations from a sprite sheet
+- [x] Project 5: Point & shoot game
+- [x] Project 6: Enemy variety in JavaScript games
+- [x] Project 7: Side-scroller game with mobile support
+- [x] Project 8: State management in JavaScript games
+- [x] Project 9: Final endless runner game with all the features
